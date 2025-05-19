@@ -1,9 +1,9 @@
 package dev.renting.delegations;
 
-import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbBean;
-import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbPartitionKey;
-import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbAttribute;
-import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbSortKey;
+import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.*;
+
+import java.util.List;
+import java.util.Map;
 
 @DynamoDbBean
 public class Car {
@@ -13,7 +13,6 @@ public class Car {
     private String model;
     private int year;
     private String color;
-    private boolean rented;
     private int price;
 
     // Partition key
@@ -71,14 +70,7 @@ public class Car {
         this.color = color;
     }
 
-    public boolean isRented() {
-        return rented;
-    }
-
-    public void setRented(boolean rented) {
-        this.rented = rented;
-    }
-
+    @DynamoDbAttribute("price")
     public int getPrice() {
         return price;
     }
@@ -87,7 +79,9 @@ public class Car {
         this.price = price;
     }
 
+}
+
     // Note: DynamoDB Enhanced Client does not natively support dynamic additional properties.
     // If you need to store extra unknown attributes, consider using a Map<String, AttributeValue> field
     // or a JSON string attribute to hold those extra properties.
-}
+

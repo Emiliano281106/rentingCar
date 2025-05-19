@@ -133,7 +133,7 @@ export default function ListCars() {
               Price: <strong>{car.price} €</strong>
             </div>
             <div style={{ marginBottom: '1rem', color: car.rented ? '#d33' : '#090' }}>
-              {car.rented ? 'Rented' : 'Available'}
+              Available
             </div>
             <Button
               theme="primary"

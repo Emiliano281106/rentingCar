@@ -28,14 +28,16 @@ export default function MainLayout() {
       <div slot="drawer" className="flex flex-col justify-between h-full p-m">
         <header className="flex flex-col gap-m">
           <span className="font-semibold text-l">My App</span>
-          <SideNav onNavigate={({ path }) => navigate(path!)} location={location}>
-            {createMenuItems().map(({ to, title, icon }) => (
-              <SideNavItem path={to} key={to}>
-                {icon ? <Icon src={icon} slot="prefix"></Icon> : <></>}
-                {title}
-              </SideNavItem>
-            ))}
-          </SideNav>
+         <SideNav onNavigate={({ path }) => navigate(path!)} location={location}>
+           {createMenuItems()
+             .filter(({ to }) => to !== '/listCars') // Exclude ListCars
+             .map(({ to, title, icon }) => (
+               <SideNavItem path={to} key={to}>
+                 {icon ? <Icon src={icon} slot="prefix"></Icon> : <></>}
+                 {title}
+               </SideNavItem>
+             ))}
+         </SideNav>
         </header>
       </div>
 
