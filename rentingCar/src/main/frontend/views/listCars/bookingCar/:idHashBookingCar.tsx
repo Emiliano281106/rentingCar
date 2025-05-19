@@ -56,6 +56,13 @@ export default function BookingCar() {
     }
   }, [sameDelegation, formData.pickupDelegationId]);
 
+ const successfulBooking = () => {
+   alert('Booking successfully created!');
+   navigate('/listCars/bookingCar/SuccessfulBooking', {
+     state: { car, personalInfo },
+   });
+ };
+
   const handleSubmit = async () => {
     if (!car) {
       alert('Car data is missing.');
@@ -259,7 +266,7 @@ export default function BookingCar() {
                                 />
                               </div>
               <div className="mt-xl">
-                <Button theme="primary" onClick={handleSubmit}>
+                <Button theme="primary" onClick={successfulBooking}>
                   Confirm Booking
                 </Button>
               </div>
