@@ -92,6 +92,7 @@ export default function BookingCar() {
   return (
     <div className="p-m max-w-2xl mx-auto">
       <div className="mt-xl">
+      </div>
         <div className="mt-xl bg-base border border-contrast-10 rounded-l p-l">
           <h3 className="text-lg mb-m font-semibold text-header">Personal Information</h3>
 
@@ -169,33 +170,100 @@ export default function BookingCar() {
             </div>
           </div>
         </div>
+          <div className="p-m max-w-2xl mx-auto">
+            <h2 className="text-xl mb-l">Car Booking Details</h2>
+            <div className="space-y-m">
+              {/* Car Make */}
+              <div className="mb-m">
+                <label htmlFor="make" className="block text-sm text-body font-medium mb-xs">
+                  Make
+                </label>
+                <input
+                  id="make"
+                  type="text"
+                  value={car.make}
+                  disabled
+                  className="w-full p-s border border-contrast-20 rounded-s bg-gray-100"
+                />
+              </div>
 
-      </div>
-      <div className="mt-xl flex items-center gap-m">
-        <input
-          type="checkbox"
-          id="sameDelegation"
-          checked={sameDelegation}
-          onChange={(e) => setSameDelegation(e.target.checked)}
-        />
-        <label htmlFor="sameDelegation">Same location for pickup and return</label>
-      </div>
-      {!sameDelegation && (
-        <div className="mt-xl">
-          <Select
-            label="Return Location"
-            value={formData.deliverDelegationId}
-            items={delegations.map(d => ({ label: d.name, value: d.id }))}
-            onValueChanged={e => setFormData({ ...formData, deliverDelegationId: e.detail.value })}
-          />
-        </div>
-      )}
-      <div className="mt-xl">
-        <Button theme="primary" onClick={handleSubmit}>
-          Confirm Booking
-        </Button>
-      </div>
-    </div>
+              {/* Car Model */}
+              <div className="mb-m">
+                <label htmlFor="model" className="block text-sm text-body font-medium mb-xs">
+                  Model
+                </label>
+                <input
+                  id="model"
+                  type="text"
+                  value={car.model}
+                  disabled
+                  className="w-full p-s border border-contrast-20 rounded-s bg-gray-100"
+                />
+              </div>
+
+              {/* Car Year */}
+              <div className="mb-m">
+                <label htmlFor="year" className="block text-sm text-body font-medium mb-xs">
+                  Year
+                </label>
+                <input
+                  id="year"
+                  type="text"
+                  value={car.year}
+                  disabled
+                  className="w-full p-s border border-contrast-20 rounded-s bg-gray-100"
+                />
+              </div>
+
+              {/* Car Color */}
+              <div className="mb-m">
+                <label htmlFor="color" className="block text-sm text-body font-medium mb-xs">
+                  Color
+                </label>
+                <input
+                  id="color"
+                  type="text"
+                  value={car.color}
+                  disabled
+                  className="w-full p-s border border-contrast-20 rounded-s bg-gray-100"
+                />
+              </div>
+
+              {/* Car Price */}
+              <div className="mb-m">
+                <label htmlFor="price" className="block text-sm text-body font-medium mb-xs">
+                  Price
+                </label>
+                <input
+                  id="price"
+                  type="text"
+                  value={`${car.price} €`}
+                  disabled
+                  className="w-full p-s border border-contrast-20 rounded-s bg-gray-100"
+                />
+              </div>
+            </div>
+          </div>
+           <div className="mt-xl">
+                                <Select
+                                  label="Deliver Location"
+                                  value={formData.deliverDelegationId}
+                                  items={delegations.map(d => ({ label: d.name, value: d }))}
+                                  onValueChanged={e => {
+                                    const deliver = e.detail.value;
+                                    setFormData(prev => ({
+                                      ...prev,
+                                      deliverDelegationId: deliver,
+                                    }));
+                                  }}
+                                />
+                              </div>
+              <div className="mt-xl">
+                <Button theme="primary" onClick={handleSubmit}>
+                  Confirm Booking
+                </Button>
+              </div>
+            </div>
   );
 }
 
