@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom';
 
 
 export const config: ViewConfig = {
-  menu: { order: 6, icon: 'line-awesome/svg/car-side-solid.svg' },
+  menu: { exclude: true },
   title: 'Book a car',
 };
 
