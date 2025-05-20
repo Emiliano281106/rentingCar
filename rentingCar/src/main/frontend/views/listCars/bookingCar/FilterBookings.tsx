@@ -5,6 +5,7 @@ import { Select } from '@vaadin/react-components/Select';
 import { DatePicker } from '@vaadin/react-components/DatePicker';
 import { Button } from '@vaadin/react-components/Button';
 import { useNavigate } from 'react-router-dom';
+import {useLocation } from 'react-router-dom';
 
 export const config: ViewConfig = {
   menu: { order: 7, icon: 'line-awesome/svg/calendar-alt-solid.svg' },
@@ -14,7 +15,7 @@ export const config: ViewConfig = {
 export default function FilterBookings() {
   const [delegations, setDelegations] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
-  const [formData, setFormData] = useState({
+  const [bookingData, setBookingData] = useState({
     delegationId: undefined as any,
     startDate: '',
     endDate: '',
@@ -36,12 +37,12 @@ export default function FilterBookings() {
   }, []);
 
   const handleApply = () => {
-    if (!formData.delegationId || !formData.startDate || !formData.endDate) {
+    if (!bookingData.delegationId || !bookingData.startDate || !bookingData.endDate) {
       alert('Please select a delegation and both dates.');
       return;
     }
-    console.log('Filter applied with:', formData);
-    navigate('/listCars/ListCars');
+    console.log('Filter applied with:', bookingData);
+    navigate('/listCars/ListCars', { state : {bookingData}});
   };
 
   if (loading) return <div>Loading...</div>;
@@ -52,9 +53,9 @@ export default function FilterBookings() {
       <div className="mt-xl">
         <Select
           label="Delegation"
-          value={formData.delegationId}
+          value={bookingData.delegationId}
           items={delegations.map(d => ({ label: d.name, value: d.id }))}
-          onValueChanged={e => setFormData({ ...formData, delegationId: e.detail.value })}
+          onValueChanged={e => setBookingData({ ...bookingData, delegationId: e.detail.value })}
         />
       </div>
       <div className="mt-xl">
@@ -62,15 +63,15 @@ export default function FilterBookings() {
           label="Start Date"
           required
           min={new Date().toISOString().split('T')[0]}
-          onValueChanged={e => setFormData({ ...formData, startDate: e.detail.value })}
+          onValueChanged={e => setBookingData({ ...bookingData, startDate: e.detail.value })}
         />
       </div>
       <div className="mt-xl">
         <DatePicker
           label="End Date"
           required
-          min={formData.startDate}
-          onValueChanged={e => setFormData({ ...formData, endDate: e.detail.value })}
+          min={bookingData.startDate}
+          onValueChanged={e => setBookingData({ ...bookingData, endDate: e.detail.value })}
         />
       </div>
       <div className="mt-xl">

@@ -16,6 +16,7 @@ export default function BookingCar() {
   const navigate = useNavigate();
   const location = useLocation();
 
+  const bookingData = location.state?.bookingData;
   const car = location.state?.car;
 
   const [delegations, setDelegations] = useState<any[]>([]);
@@ -27,12 +28,12 @@ export default function BookingCar() {
       email: '',
       phone: ''
       });
-  const [formData, setFormData] = useState({
+  const [deliverDelegation, setDeliverDelegation] = useState({
     deliverDelegationId: undefined as any
   });
 
     // Load delegations on component
-  useEffect(() => {
+ useEffect(() => {
     const loadDelegations = async () => {
       try {
         const result = await DelegationEndpoint.getAllProfileDelegations();
@@ -47,19 +48,19 @@ export default function BookingCar() {
   }, []);
 
   // Keep deliverDelegationId in sync if sameDelegation is checked
-  useEffect(() => {
+/*   useEffect(() => {
     if (sameDelegation) {
       setFormData(prev => ({
         ...prev,
         deliverDelegationId: prev.pickupDelegationId
       }));
     }
-  }, [sameDelegation, formData.pickupDelegationId]);
+  }, [sameDelegation, formData.pickupDelegationId]); */
 
  const successfulBooking = () => {
    alert('Booking successfully created!');
    navigate('/listCars/bookingCar/SuccessfulBooking', {
-     state: { car, personalInfo },
+     state: { car, personalInfo, bookingData, deliverDelegation },
    });
  };
 
@@ -68,8 +69,8 @@ export default function BookingCar() {
       alert('Car data is missing.');
       return;
     }
-    if (!formData.pickupDelegationId || (!sameDelegation && !formData.deliverDelegationId)) {
-      alert('Please select pickup and delivery delegations');
+    if (!deliverDelegation.deliverDelegationId) {
+      alert('Please select delivery delegation');
       return;
     }
 
@@ -78,7 +79,7 @@ export default function BookingCar() {
         userId: "USER#001",
         operation: 'booking#2025#009',
         car: car,
-        deliverDelegation: formData.deliverDelegationId,
+        deliverDelegation: deliverDelegation.deliverDelegationId,
         statusPayment: "PENDING",
         statusBooking: "CREATED"
       });
@@ -254,11 +255,11 @@ export default function BookingCar() {
            <div className="mt-xl">
                                 <Select
                                   label="Deliver Location"
-                                  value={formData.deliverDelegationId}
+                                  value={deliverDelegation.deliverDelegationId}
                                   items={delegations.map(d => ({ label: d.name, value: d }))}
                                   onValueChanged={e => {
                                     const deliver = e.detail.value;
-                                    setFormData(prev => ({
+                                    setDeliverDelegation(prev => ({
                                       ...prev,
                                       deliverDelegationId: deliver,
                                     }));

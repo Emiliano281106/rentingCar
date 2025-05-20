@@ -4,6 +4,7 @@ import { DelegationEndpoint } from 'Frontend/generated/endpoints';
 import Car from 'Frontend/generated/dev/renting/delegations/Car';
 import { Button } from '@vaadin/react-components/Button';
 import { useNavigate } from 'react-router-dom';
+import {useLocation } from 'react-router-dom';
 //import { useNavigate } from '@vaadin/hilla-file-router/react';
 
 
@@ -16,6 +17,8 @@ export default function ListCars() {
   const [cars, setCars] = useState<Car[]>([]);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
+  const location = useLocation();
+  const bookingData = location.state?.bookingData;
 
   useEffect(() => {
     DelegationEndpoint.getAllCars()
@@ -44,7 +47,7 @@ export default function ListCars() {
         model: car.model ?? '',
         userId
       });
-      navigate(`/listCars/bookingCar/${idHashBookingCar}`, { state: { car } });
+      navigate(`/listCars/bookingCar/${idHashBookingCar}`, { state: { car, bookingData } });
     } catch (error) {
       console.error('Error generating booking hash:', error);
       alert('Failed to start booking process');
