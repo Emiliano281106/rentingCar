@@ -20,8 +20,8 @@ export default function BookingCar() {
   const car = location.state?.car;
 
   const [delegations, setDelegations] = useState<any[]>([]);
+  const [totalToPayment, setTotalToPayment] = useState<number | null>(null);
   const [loading, setLoading] = useState(true);
-  const [sameDelegation, setSameDelegation] = useState(false);
   const [personalInfo, setPersonalInfo] = useState({
       name: '',
       surname: '',
@@ -47,49 +47,54 @@ export default function BookingCar() {
     loadDelegations();
   }, []);
 
-  // Keep deliverDelegationId in sync if sameDelegation is checked
-/*   useEffect(() => {
-    if (sameDelegation) {
-      setFormData(prev => ({
-        ...prev,
-        deliverDelegationId: prev.pickupDelegationId
-      }));
-    }
-  }, [sameDelegation, formData.pickupDelegationId]); */
+  const calculateTotalPayment = (startDate: string,endDate: string, price: number) => {
+    if (!startDate || !endDate || !price) return 0;
+    const start = new Date(startDate);
+    const end = new Date(endDate);
+    const qtyDays = Math.floor((end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24)) + 1;
+    if (qtyDays <= 0) return 0;
+    const totalBeforeTax = qtyDays * price;
+    const tax = totalBeforeTax * 0.23;
+    return +(totalBeforeTax + tax).toFixed(2);
+  };
 
  const successfulBooking = () => {
-   alert('Booking successfully created!');
-   navigate('/listCars/bookingCar/SuccessfulBooking', {
-     state: { car, personalInfo, bookingData, deliverDelegation },
+      if (!deliverDelegation.deliverDelegationId) {
+           alert('Please select delivery delegation');
+           return;
+         };
+
+     const total = calculateTotalPayment(bookingData.startDate, bookingData.endDate, car.price);
+         if (total <= 0) {
+           alert('Invalid dates selected.');
+           return;
+           };
+
+      try{
+          await UserEndpoint.saveBooking({
+
+            userId: "USER#001",
+            operation: 'booking#2025#009',
+            car: car,
+            delegationId: bookingData.delegationId,
+            deliverDelegationId: deliverDelegation.deliverDelegationId,
+            startDate: bookingData.startDate,
+            endDate: bookingData.endDate,
+            name: personalInfo.name,
+            surname: personalInfo.surname,
+            email: personalInfo.email,
+            phone: personalInfo.phone,
+            total : total,
+            });
+            setTotalToPayment(total);
+          }catch{
+            alert('Error saving booking. Please try again.');
+              }
+    alert('Booking successfully created!');
+    navigate('/listCars/bookingCar/SuccessfulBooking', {
+     state: { car, personalInfo, bookingData, deliverDelegation, totalToPayment }
    });
  };
-
-  const handleSubmit = async () => {
-    if (!car) {
-      alert('Car data is missing.');
-      return;
-    }
-    if (!deliverDelegation.deliverDelegationId) {
-      alert('Please select delivery delegation');
-      return;
-    }
-
-    try {
-      await UserEndpoint.saveBooking({
-        userId: "USER#001",
-        operation: 'booking#2025#009',
-        car: car,
-        deliverDelegation: deliverDelegation.deliverDelegationId,
-        statusPayment: "PENDING",
-        statusBooking: "CREATED"
-      });
-      alert('Booking successfully created!');
-      navigate('/bookings');
-    } catch (error) {
-      console.error('Booking failed:', error);
-      alert('Failed to complete booking');
-    }
-  };
 
   if (!car) {
     return <div>Error: Car data not found. Please navigate from the car list.</div>;

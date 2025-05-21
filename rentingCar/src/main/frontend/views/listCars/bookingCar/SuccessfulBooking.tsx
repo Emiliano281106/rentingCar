@@ -15,6 +15,7 @@ export default function SuccessfulBooking() {
   const personalInfo = location.state?.personalInfo;
   const deliverDelegation = location.state?.deliverDelegation;
   const bookingData = location.state?.bookingData;
+  const totalPrice = location.state?.totalToPayment;
 
   if (!car || !personalInfo) {
     return <div>Error: Missing booking details. Please try again.</div>;
@@ -60,6 +61,9 @@ return (
       </div>
       <div style={{ marginBottom: '1rem' }}>
         <strong>Car Model:</strong> {car.model}
+      </div>
+      <div style={{ marginBottom: '1rem' }}>
+              <strong>Total Price:</strong> {totalPrice} €
       </div>
     </div>
     <div className="flex gap-m">

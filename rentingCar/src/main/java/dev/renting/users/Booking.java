@@ -14,7 +14,6 @@ public class Booking {
     private String userId;
     private String operation;
     private Car car;
-    private String status;
     private String startDate;
     private String endDate;
     private double totalToPayment;
@@ -36,10 +35,6 @@ public class Booking {
     @DynamoDbAttribute("car")
     public Car getCar() { return car; }
     public void setCar(Car car) { this.car = car; }
-
-    @DynamoDbAttribute("status")
-    public String getStatus() { return status; }
-    public void setStatus(String status) { this.status = status; }
 
     @DynamoDbAttribute("startDate")
     public String getStartDate() { return startDate; }

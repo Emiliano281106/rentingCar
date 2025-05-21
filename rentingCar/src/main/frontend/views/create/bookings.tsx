@@ -29,12 +29,11 @@ const sampleBooking: Booking = {
     rented: false,
     price: 40000
   },
-  status: "ACTIVE",
+
   startDate: "2025-10-01",
   endDate: "2025-10-07",
   totalToPayment: 456.56,
-  statusPayment: "PAID",
-  statusBooking: "CREATED",
+
   pickUpDelegation: {
     delegationId: "DELEG#001",
     operation: "profile",
