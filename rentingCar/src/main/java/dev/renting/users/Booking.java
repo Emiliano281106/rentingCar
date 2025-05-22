@@ -17,8 +17,6 @@ public class Booking {
     private String startDate;
     private String endDate;
     private double totalToPayment;
-    private String statusPaymemt;
-    private String statusBooking;
     private Delegation pickUpDelegation;
     private Delegation deliverDelegation;
 
@@ -47,14 +45,6 @@ public class Booking {
     @DynamoDbAttribute("totalToPayment")
     public double getTotalToPayment() { return totalToPayment; }
     public void setTotalToPayment(double totalToPayment) { this.totalToPayment = totalToPayment; }
-
-    @DynamoDbAttribute("statusPayment")
-    public String getStatusPayment() { return statusPaymemt; }
-    public void setStatusPayment(String statusPayment) { this.statusPaymemt = statusPayment; }
-
-    @DynamoDbAttribute("statusBooking")
-    public String getStatusBooking() { return statusBooking; }
-    public void setStatusBooking(String statusBooking) { this.statusBooking = statusBooking; }
 
     @DynamoDbAttribute("pickUpDelegation")
     public Delegation getPickUpDelegation() { return pickUpDelegation; }

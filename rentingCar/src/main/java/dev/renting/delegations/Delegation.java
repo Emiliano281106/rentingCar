@@ -12,7 +12,6 @@ public class Delegation {
     private String name;
     private String address;
     private String city;
-    private int availableCarQty;
     private String phone;
     private String email;
 
@@ -59,15 +58,6 @@ public class Delegation {
 
     public void setCity(String city) {
         this.city = city;
-    }
-
-    @DynamoDbAttribute("availableCarQty")
-    public int getAvailableCarQty() {
-        return availableCarQty;
-    }
-
-    public void setAvailableCarQty(int availableCarQty) {
-        this.availableCarQty = availableCarQty;
     }
 
     @DynamoDbAttribute("phone")

@@ -48,7 +48,7 @@ return (
         <strong>PickUp Delegation:</strong> {bookingData.delegationId}
       </div>
       <div style={{ marginBottom: '1rem' }}>
-        <strong>Deliver delegation:</strong> {deliverDelegation.deliverDelegationId.name}
+        <strong>Deliver delegation:</strong> {deliverDelegation.deliverDelegationId}
       </div>
       <div style={{ marginBottom: '1rem' }}>
         <strong>Start Date:</strong> {bookingData.startDate}

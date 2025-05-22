@@ -54,7 +54,7 @@ export default function FilterBookings() {
         <Select
           label="Delegation"
           value={bookingData.delegationId}
-          items={delegations.map(d => ({ label: d.name, value: d.id }))}
+          items={delegations.map(d => ({ label: d.name, value: d.delegationId }))}
           onValueChanged={e => setBookingData({ ...bookingData, delegationId: e.detail.value })}
         />
       </div>

@@ -58,43 +58,47 @@ export default function BookingCar() {
     return +(totalBeforeTax + tax).toFixed(2);
   };
 
- const successfulBooking = () => {
-      if (!deliverDelegation.deliverDelegationId) {
-           alert('Please select delivery delegation');
-           return;
-         };
 
-     const total = calculateTotalPayment(bookingData.startDate, bookingData.endDate, car.price);
-         if (total <= 0) {
-           alert('Invalid dates selected.');
-           return;
-           };
+const successfulBooking = async () => {
+  if (!deliverDelegation.deliverDelegationId) {
+    alert('Please select delivery delegation');
+    return;
+  }
 
-      try{
-          await UserEndpoint.saveBooking({
+  const total = calculateTotalPayment(bookingData.startDate, bookingData.endDate, car.price);
+  if (total <= 0) {
+    alert('Invalid dates selected.');
+    return;
+  }
 
-            userId: "USER#001",
-            operation: 'booking#2025#009',
-            car: car,
-            delegationId: bookingData.delegationId,
-            deliverDelegationId: deliverDelegation.deliverDelegationId,
-            startDate: bookingData.startDate,
-            endDate: bookingData.endDate,
-            name: personalInfo.name,
-            surname: personalInfo.surname,
-            email: personalInfo.email,
-            phone: personalInfo.phone,
-            total : total,
-            });
-            setTotalToPayment(total);
-          }catch{
-            alert('Error saving booking. Please try again.');
-              }
-    alert('Booking successfully created!');
-    navigate('/listCars/bookingCar/SuccessfulBooking', {
-     state: { car, personalInfo, bookingData, deliverDelegation, totalToPayment }
-   });
- };
+  setTotalToPayment(total);
+
+  // Find the full delegation objects
+  const pickUpDelegation = delegations.find(d => d.delegationId === bookingData.delegationId);
+  const deliverDelegationObj = delegations.find(d => d.delegationId === deliverDelegation.deliverDelegationId);
+  console.log('pickUpDelegation:', pickUpDelegation);
+  console.log('deliverDelegationObj:', deliverDelegationObj);
+
+  try {
+    await UserEndpoint.saveBooking({
+      userId: "USER#001",
+      operation: 'booking#2025#009',
+      car: car,
+      pickUpDelegation: pickUpDelegation,
+      deliverDelegation: deliverDelegationObj,
+      startDate: bookingData.startDate,
+      endDate: bookingData.endDate,
+      totalToPayment: total,
+    });
+  } catch {
+    alert('Error saving booking. Please try again.');
+    return;
+  }
+  alert('Booking successfully created!');
+  navigate('/listCars/bookingCar/SuccessfulBooking', {
+    state: { car, personalInfo, bookingData, deliverDelegation, totalToPayment: total }
+  });
+};
 
   if (!car) {
     return <div>Error: Car data not found. Please navigate from the car list.</div>;
@@ -108,7 +112,6 @@ export default function BookingCar() {
       </div>
         <div className="mt-xl bg-base border border-contrast-10 rounded-l p-l">
           <h3 className="text-lg mb-m font-semibold text-header">Personal Information</h3>
-
           <div className="space-y-m">
             {/* Name Field */}
             <div className="mb-m">
@@ -261,12 +264,12 @@ export default function BookingCar() {
                                 <Select
                                   label="Deliver Location"
                                   value={deliverDelegation.deliverDelegationId}
-                                  items={delegations.map(d => ({ label: d.name, value: d }))}
+                                  items={delegations.map(d => ({ label: d.name, value: d.delegationId }))}
                                   onValueChanged={e => {
-                                    const deliver = e.detail.value;
+                                    const deliverId = e.detail.value;
                                     setDeliverDelegation(prev => ({
                                       ...prev,
-                                      deliverDelegationId: deliver,
+                                      deliverDelegationId: deliverId,
                                     }));
                                   }}
                                 />
