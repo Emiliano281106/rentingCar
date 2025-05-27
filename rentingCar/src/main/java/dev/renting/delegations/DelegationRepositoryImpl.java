@@ -7,6 +7,7 @@ import software.amazon.awssdk.enhanced.dynamodb.model.QueryConditional;
 import software.amazon.awssdk.enhanced.dynamodb.model.ScanEnhancedRequest;
 import software.amazon.awssdk.services.dynamodb.model.AttributeValue;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -109,4 +110,5 @@ public class DelegationRepositoryImpl implements DelegationRepository {
         table.scan(ScanEnhancedRequest.builder().build()).items().forEach(items::add);
         return items;
     }
+
 }

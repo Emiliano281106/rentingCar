@@ -49,8 +49,6 @@ export default function Bookings() {
           header="Deliver Delegation"
           renderer={({ item }) => item.deliverDelegation?.name ?? ''}
         />
-        <GridColumn path="statusBooking" header="Booking Status" />
-        <GridColumn path="statusPayment" header="Payment Status" />
         <GridColumn
           header="Total (€)"
           renderer={({ item }) => item.totalToPayment?.toFixed(2) ?? '0.00'}

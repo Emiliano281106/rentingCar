@@ -1,6 +1,8 @@
 import { ViewConfig } from '@vaadin/hilla-file-router/types.js';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Button } from '@vaadin/react-components/Button';
+import { Grid } from '@vaadin/react-components/Grid';
+import { GridColumn } from '@vaadin/react-components/GridColumn';
 
 export const config: ViewConfig = {
   menu: { exclude: true },
@@ -20,6 +22,11 @@ export default function SuccessfulBooking() {
   if (!car || !personalInfo) {
     return <div>Error: Missing booking details. Please try again.</div>;
   }
+
+  const handlePayment = () =>{
+     alert('Succes!!!!'); // Placeholder for payment logic
+    navigate('/bookings');
+  };
 
 return (
   <div className="p-m max-w-2xl mx-auto">
@@ -67,12 +74,24 @@ return (
       </div>
     </div>
     <div className="flex gap-m">
-      <Button theme="primary" onClick={() => navigate('/')}>
-        Go to Home
-      </Button>
-      <Button theme="secondary" onClick={() => navigate('/bookings')}>
-        View Bookings
-      </Button>
+     <Button
+       theme="primary"
+       style={{
+         backgroundColor: '#4CAF50', // Green color for payment
+         color: '#fff',
+         borderRadius: '8px',
+         padding: '0.75rem 1.5rem',
+         fontSize: '1rem',
+         fontWeight: 'bold',
+         display: 'flex',
+         alignItems: 'center',
+         gap: '0.5rem',
+         boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+       }}
+       onClick={handlePayment}
+     >
+       <span>💳</span> Pay
+     </Button>
     </div>
   </div>
 );

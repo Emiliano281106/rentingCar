@@ -13,6 +13,7 @@ public class Car {
     private String model;
     private int year;
     private String color;
+    private Map<String, Boolean> availableDates;
     private int price;
 
     // Partition key
@@ -77,6 +78,11 @@ public class Car {
 
     public void setPrice(int price) {
         this.price = price;
+    }
+
+    @DynamoDbAttribute("availableDates") // New attribute
+    public Map<String, Boolean> getAvailableDates() {
+        return availableDates;
     }
 
 }

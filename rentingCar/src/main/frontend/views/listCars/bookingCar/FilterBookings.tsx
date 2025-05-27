@@ -36,10 +36,21 @@ export default function FilterBookings() {
     loadDelegations();
   }, []);
 
-  const handleApply = () => {
+  const handleApply = async() => {
     if (!bookingData.delegationId || !bookingData.startDate || !bookingData.endDate) {
       alert('Please select a delegation and both dates.');
       return;
+    }
+
+  try {
+    const response = await DelegationEndpoint.getAllCars({
+      delegationId: String(bookingData.delegationId),
+      startDate: bookingData.startDate,
+      endDate: bookingData.endDate,
+    });
+    console.log(response);
+  }  catch (error) {
+    console.error('Error fetching available cars:', error);
     }
     console.log('Filter applied with:', bookingData);
     navigate('/listCars/ListCars', { state : {bookingData}});
