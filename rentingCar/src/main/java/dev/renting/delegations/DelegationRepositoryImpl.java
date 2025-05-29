@@ -7,11 +7,12 @@ import software.amazon.awssdk.enhanced.dynamodb.model.QueryConditional;
 import software.amazon.awssdk.enhanced.dynamodb.model.ScanEnhancedRequest;
 import software.amazon.awssdk.services.dynamodb.model.AttributeValue;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+
 @Repository
 public class DelegationRepositoryImpl implements DelegationRepository {
 
@@ -109,6 +110,34 @@ public class DelegationRepositoryImpl implements DelegationRepository {
         List<T> items = new ArrayList<>();
         table.scan(ScanEnhancedRequest.builder().build()).items().forEach(items::add);
         return items;
+    }
+
+    @Override
+    public List<Car> listAllCarsByDelegation(String delegationId) {
+        // 1. Obtener referencia a la tabla DynamoDB
+        DynamoDbTable<Car> table = enhancedClient.table(tableName, TableSchema.fromBean(Car.class));
+
+        // 2. Preparar valores para la expresión de filtro
+        Map<String, AttributeValue> expressionValues = new HashMap<>();
+        expressionValues.put(":prefix", AttributeValue.builder().s("car").build());  // Valor para el prefijo
+        expressionValues.put(":delegation", AttributeValue.builder().s(delegationId).build());  // Valor para delegationId
+
+        // 3. Construir expresión de filtro combinada
+        Expression filterExpression = Expression.builder()
+                .expression("begins_with(operation, :prefix) AND delegationId = :delegation")  // Combinación AND
+                .expressionValues(expressionValues)
+                .build();
+
+        // 4. Configurar solicitud de escaneo con filtro
+        ScanEnhancedRequest scanRequest = ScanEnhancedRequest.builder()
+                .filterExpression(filterExpression)
+                .build();
+
+        // 5. Ejecutar escaneo y recolectar resultados
+        return table.scan(scanRequest)
+                .items()
+                .stream()
+                .collect(Collectors.toList());  // Uso de streams para eficiencia
     }
 
 }

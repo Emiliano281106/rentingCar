@@ -59,6 +59,10 @@ public class DelegationEndpoint {
         return delegationRepository.listAllDelegations();
     }
 
+    public List<Car> getAllCarsByDelegation(String delegationId) {
+        return delegationRepository.listAllCarsByDelegation(delegationId);
+    }
+
 
 
 

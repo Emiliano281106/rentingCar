@@ -27,6 +27,7 @@ export default function FilterBookings() {
       try {
         const result = await DelegationEndpoint.getAllProfileDelegations();
         setDelegations(result || []);
+        console.log('Delegations loaded:', result);
       } catch (error) {
         console.error('Error loading delegations:', error);
       } finally {
@@ -43,12 +44,9 @@ export default function FilterBookings() {
     }
 
   try {
-    const response = await DelegationEndpoint.getAllCars({
-      delegationId: String(bookingData.delegationId),
-      startDate: bookingData.startDate,
-      endDate: bookingData.endDate,
-    });
-    console.log(response);
+   const response = await DelegationEndpoint.getAllCarsByDelegation(
+     String(bookingData.delegationId)
+    );console.log(response);
   }  catch (error) {
     console.error('Error fetching available cars:', error);
     }
