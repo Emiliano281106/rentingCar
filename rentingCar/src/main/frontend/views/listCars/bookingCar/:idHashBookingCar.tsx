@@ -82,7 +82,7 @@ const successfulBooking = async () => {
   try {
     await UserEndpoint.saveBooking({
       userId: "USER#001",
-      operation: 'booking#2025#009',
+      operation: 'booking#2025#' + idHashBookingCar,
       car: car,
       pickUpDelegation: pickUpDelegation,
       deliverDelegation: deliverDelegationObj,
