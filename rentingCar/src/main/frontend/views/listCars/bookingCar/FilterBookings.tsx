@@ -43,15 +43,16 @@ export default function FilterBookings() {
       return;
     }
 
-  try {
-   const response = await DelegationEndpoint.getAllCarsByDelegation(
-     String(bookingData.delegationId)
-    );console.log(response);
-  }  catch (error) {
-    console.error('Error fetching available cars:', error);
+    try {
+      const response = await DelegationEndpoint.getAllCarsByDelegation(
+        String(bookingData.delegationId)
+      );
+      console.log(response);
+      console.log('Filter applied with:', bookingData);
+      navigate('/listCars/ListCars', { state: { bookingData, response } });
+    } catch (error) {
+      console.error('Error fetching available cars:', error);
     }
-    console.log('Filter applied with:', bookingData);
-    navigate('/listCars/ListCars', { state : {bookingData}});
   };
 
   if (loading) return <div>Loading...</div>;

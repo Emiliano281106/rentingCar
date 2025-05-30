@@ -15,28 +15,11 @@ export const config: ViewConfig = {
 
 export default function ListCars() {
   const [cars, setCars] = useState<Car[]>([]);
-  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
   const location = useLocation();
   const bookingData = location.state?.bookingData;
+  const filteredCars = location.state?.response || [];
 
-  useEffect(() => {
-    DelegationEndpoint.getAllCars()
-      .then((result) => {
-        const safeCars = (result ?? []).filter(
-          (car): car is Car =>
-            !!car &&
-            typeof car.delegationId === 'string' &&
-            typeof car.operation === 'string'
-        );
-        setCars(safeCars);
-      })
-      .catch((error) => {
-        console.error('Failed to fetch cars:', error);
-        setCars([]);
-      })
-      .finally(() => setLoading(false));
-  }, []);
 
   const handleBook = async (car: Car) => {
     const userId = "USER#001";
@@ -74,11 +57,13 @@ export default function ListCars() {
     return typeof car.make === 'string' && typeof car.model === 'string';
   }
 
-  if (loading) {
-    return <div>Loading cars...</div>;
-  }
 
-  if (cars.length === 0) {
+
+  const carsToRender = Array.isArray(filteredCars) && filteredCars.length > 0
+    ? filteredCars
+    : cars;
+
+  if (carsToRender.length === 0) {
     return <div>No cars available.</div>;
   }
 
@@ -92,7 +77,7 @@ export default function ListCars() {
         padding: '2rem'
       }}
     >
-      {cars
+      {carsToRender
         .filter(isCarWithMakeAndModel)
         .map(car => (
           <div
