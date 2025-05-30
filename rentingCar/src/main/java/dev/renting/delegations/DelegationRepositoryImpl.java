@@ -4,13 +4,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import software.amazon.awssdk.enhanced.dynamodb.*;
 import software.amazon.awssdk.enhanced.dynamodb.model.QueryConditional;
+import software.amazon.awssdk.enhanced.dynamodb.model.QueryEnhancedRequest;
 import software.amazon.awssdk.enhanced.dynamodb.model.ScanEnhancedRequest;
 import software.amazon.awssdk.services.dynamodb.model.AttributeValue;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Repository
@@ -114,30 +114,110 @@ public class DelegationRepositoryImpl implements DelegationRepository {
 
     @Override
     public List<Car> listAllCarsByDelegation(String delegationId) {
-        // 1. Obtener referencia a la tabla DynamoDB
         DynamoDbTable<Car> table = enhancedClient.table(tableName, TableSchema.fromBean(Car.class));
-
-        // 2. Preparar valores para la expresión de filtro
         Map<String, AttributeValue> expressionValues = new HashMap<>();
-        expressionValues.put(":prefix", AttributeValue.builder().s("car").build());  // Valor para el prefijo
-        expressionValues.put(":delegation", AttributeValue.builder().s(delegationId).build());  // Valor para delegationId
-
-        // 3. Construir expresión de filtro combinada
+        expressionValues.put(":prefix", AttributeValue.builder().s("car").build());
+        expressionValues.put(":delegation", AttributeValue.builder().s(delegationId).build());
         Expression filterExpression = Expression.builder()
-                .expression("begins_with(operation, :prefix) AND delegationId = :delegation")  // Combinación AND
+                .expression("begins_with(operation, :prefix) AND delegationId = :delegation")
                 .expressionValues(expressionValues)
                 .build();
+        ScanEnhancedRequest scanRequest = ScanEnhancedRequest.builder()
+                .filterExpression(filterExpression)
+                .build();
+        return table.scan(scanRequest)
+                .items()
+                .stream()
+                .collect(Collectors.toList());
+    }
 
-        // 4. Configurar solicitud de escaneo con filtro
+    @Override
+    public List<Car> listCarsByDelegationAndDate(String delegationId, String startDate, String endDate) {
+        // Defensive: check for null or empty input
+        if (delegationId == null || startDate == null || endDate == null) {
+            System.err.println("Null input in listCarsByDelegationAndDate: " + delegationId + ", " + startDate + ", " + endDate);
+            return Collections.emptyList();
+        }
+
+        // Convert ISO date (yyyy-MM-dd) to expected format (yyyy/MM/dd) if needed
+        String formattedStartDate = convertToSlashDate(startDate);
+        String formattedEndDate = convertToSlashDate(endDate);
+
+        List<String> requiredDates;
+        try {
+            requiredDates = generateDateRange(formattedStartDate, formattedEndDate);
+        } catch (Exception e) {
+            System.err.println("Error parsing dates: " + formattedStartDate + ", " + formattedEndDate);
+            e.printStackTrace();
+            return Collections.emptyList();
+        }
+        if (requiredDates.isEmpty()) {
+            System.err.println("No dates generated for range: " + formattedStartDate + " to " + formattedEndDate);
+            return Collections.emptyList();
+        }
+
+        DynamoDbTable<Car> table = enhancedClient.table(tableName, TableSchema.fromBean(Car.class));
+        Map<String, AttributeValue> expressionValues = new HashMap<>();
+        expressionValues.put(":prefix", AttributeValue.builder().s("car").build());
+        expressionValues.put(":delegation", AttributeValue.builder().s(delegationId).build());
+        Expression filterExpression = Expression.builder()
+                .expression("begins_with(operation, :prefix) AND delegationId = :delegation")
+                .expressionValues(expressionValues)
+                .build();
         ScanEnhancedRequest scanRequest = ScanEnhancedRequest.builder()
                 .filterExpression(filterExpression)
                 .build();
 
-        // 5. Ejecutar escaneo y recolectar resultados
-        return table.scan(scanRequest)
+        List<Car> cars = table.scan(scanRequest)
                 .items()
                 .stream()
-                .collect(Collectors.toList());  // Uso de streams para eficiencia
+                .collect(Collectors.toList());
+
+        List<Car> availableCars = new ArrayList<>();
+        for (Car car : cars) {
+            List<String> carDates = car.getAvailableDates();
+            if (carDates == null) {
+                System.err.println("Car with null availableDates: " + car.getOperation());
+                continue;
+            }
+            // Defensive: filter out non-string or malformed dates
+            List<String> validDates = carDates.stream()
+                    .filter(Objects::nonNull)
+                    .filter(d -> d.matches("\\d{4}/\\d{2}/\\d{2}"))
+                    .collect(Collectors.toList());
+            if (validDates.size() != carDates.size()) {
+                System.err.println("Car with malformed dates: " + car.getOperation() + " " + carDates);
+            }
+            Set<String> carDateSet = new HashSet<>(validDates);
+            if (carDateSet.containsAll(requiredDates)) {
+                availableCars.add(car);
+            }
+        }
+        return availableCars;
+    }
+
+    // Converts yyyy-MM-dd to yyyy/MM/dd, or returns input if already in correct format
+    private String convertToSlashDate(String date) {
+        if (date == null) return null;
+        if (date.contains("/")) return date;
+        if (date.matches("\\d{4}-\\d{2}-\\d{2}")) {
+            return date.replace("-", "/");
+        }
+        return date;
+    }
+
+    private List<String> generateDateRange(String startDateStr, String endDateStr) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+        LocalDate start = LocalDate.parse(startDateStr, formatter);
+        LocalDate end = LocalDate.parse(endDateStr, formatter);
+
+        List<String> dates = new ArrayList<>();
+        LocalDate current = start;
+        while (!current.isAfter(end)) {
+            dates.add(current.format(formatter));
+            current = current.plusDays(1);
+        }
+        return dates;
     }
 
 }

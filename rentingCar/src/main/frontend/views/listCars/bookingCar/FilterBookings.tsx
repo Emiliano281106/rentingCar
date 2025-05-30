@@ -44,11 +44,13 @@ export default function FilterBookings() {
     }
 
     try {
-      const response = await DelegationEndpoint.getAllCarsByDelegation(
-        String(bookingData.delegationId)
+      const response = await DelegationEndpoint.getAllCarsByDelegationAndDate(
+        String(bookingData.delegationId),
+        String(bookingData.startDate),
+        String(bookingData.endDate),
       );
       console.log(response);
-      console.log('Filter applied with:', bookingData);
+      console.log('Filter applied with:', bookingData.delegationId, bookingData.startDate, bookingData.endDate);
       navigate('/listCars/ListCars', { state: { bookingData, response } });
     } catch (error) {
       console.error('Error fetching available cars:', error);

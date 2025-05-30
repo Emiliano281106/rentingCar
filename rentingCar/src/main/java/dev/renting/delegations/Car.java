@@ -3,7 +3,6 @@ package dev.renting.delegations;
 import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.*;
 
 import java.util.List;
-import java.util.Map;
 
 @DynamoDbBean
 public class Car {
@@ -13,7 +12,7 @@ public class Car {
     private String model;
     private int year;
     private String color;
-    private Map<String, Boolean> availableDates;
+    private List<String> availableDates;
     private int price;
 
     // Partition key
@@ -80,14 +79,17 @@ public class Car {
         this.price = price;
     }
 
-    @DynamoDbAttribute("availableDates") // New attribute
-    public Map<String, Boolean> getAvailableDates() {
+    @DynamoDbAttribute("availableDates")
+    public List<String> getAvailableDates() {
         return availableDates;
+    }
+
+    public void setAvailableDates(List<String> availableDates) {
+        this.availableDates = availableDates;
     }
 
 }
 
-    // Note: DynamoDB Enhanced Client does not natively support dynamic additional properties.
-    // If you need to store extra unknown attributes, consider using a Map<String, AttributeValue> field
-    // or a JSON string attribute to hold those extra properties.
-
+// Note: DynamoDB Enhanced Client does not natively support dynamic additional properties.
+// If you need to store extra unknown attributes, consider using a Map<String, AttributeValue> field
+// or a JSON string attribute to hold those extra properties.

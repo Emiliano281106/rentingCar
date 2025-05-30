@@ -17,4 +17,6 @@ public interface DelegationRepository {
     <T> List<T> listAllItems(Class<T> clazz);
 
     List<Car> listAllCarsByDelegation(String delegationId);
+
+    List<Car> listCarsByDelegationAndDate(String delegationId, String startDate, String endDate);
 }
