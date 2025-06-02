@@ -19,4 +19,7 @@ public interface DelegationRepository {
     List<Car> listAllCarsByDelegation(String delegationId);
 
     List<Car> listCarsByDelegationAndDate(String delegationId, String startDate, String endDate);
+
+    void deleteDatesFromCar(Car car, String startDate, String endDate);
+
 }

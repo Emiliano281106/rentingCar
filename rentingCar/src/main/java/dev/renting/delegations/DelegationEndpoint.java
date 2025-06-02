@@ -67,7 +67,11 @@ public class DelegationEndpoint {
         return delegationRepository.listCarsByDelegationAndDate(delegationId, startDate, endDate);
     }
 
-
-
+    /**
+     * Removes the given date range from the car's availableDates.
+     */
+    public void deleteDate(Car car, String startDate, String endDate) {
+        delegationRepository.deleteDatesFromCar(car, startDate, endDate);
+    }
 
 }

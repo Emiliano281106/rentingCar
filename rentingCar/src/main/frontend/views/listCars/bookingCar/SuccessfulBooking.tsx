@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { Button } from '@vaadin/react-components/Button';
 import { Grid } from '@vaadin/react-components/Grid';
 import { GridColumn } from '@vaadin/react-components/GridColumn';
+import { DelegationEndpoint, UserEndpoint } from 'Frontend/generated/endpoints';
 
 export const config: ViewConfig = {
   menu: { exclude: true },
@@ -23,8 +24,16 @@ export default function SuccessfulBooking() {
     return <div>Error: Missing booking details. Please try again.</div>;
   }
 
-  const handlePayment = () =>{
-     alert('Succes!!!!'); // Placeholder for payment logic
+  const handlePayment = async() =>{
+      try{
+          // Call the correct endpoint method name: deleteDate
+          await DelegationEndpoint.deleteDate(car, bookingData.startDate, bookingData.endDate);
+
+          }catch (error) {
+
+         console.error('Error deleting date:', error);}
+
+     alert('Successful!!!!'); // Placeholder for payment logic
     navigate('/bookings');
   };
 

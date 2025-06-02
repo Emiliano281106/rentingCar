@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import software.amazon.awssdk.enhanced.dynamodb.*;
 import software.amazon.awssdk.enhanced.dynamodb.model.QueryConditional;
-import software.amazon.awssdk.enhanced.dynamodb.model.QueryEnhancedRequest;
 import software.amazon.awssdk.enhanced.dynamodb.model.ScanEnhancedRequest;
 import software.amazon.awssdk.services.dynamodb.model.AttributeValue;
 
@@ -196,6 +195,31 @@ public class DelegationRepositoryImpl implements DelegationRepository {
         return availableCars;
     }
 
+    @Override
+    public void deleteDatesFromCar(Car car, String startDate, String endDate) {
+        if (car == null || startDate == null || endDate == null) return;
+
+        String formattedStartDate = convertToSlashDate(startDate);
+        String formattedEndDate = convertToSlashDate(endDate);
+
+        List<String> datesToRemove;
+        try {
+            datesToRemove = generateDateRange(formattedStartDate, formattedEndDate);
+        } catch (Exception e) {
+            System.err.println("Error parsing dates for deletion: " + formattedStartDate + ", " + formattedEndDate);
+            e.printStackTrace();
+            return;
+        }
+
+        List<String> availableDates = car.getAvailableDates();
+        if (availableDates == null) return;
+
+        availableDates.removeAll(datesToRemove);
+        car.setAvailableDates(availableDates);
+
+        save(car);
+    }
+
     // Converts yyyy-MM-dd to yyyy/MM/dd, or returns input if already in correct format
     private String convertToSlashDate(String date) {
         if (date == null) return null;
@@ -219,5 +243,7 @@ public class DelegationRepositoryImpl implements DelegationRepository {
         }
         return dates;
     }
+
+
 
 }
