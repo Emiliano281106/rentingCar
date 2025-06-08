@@ -1,13 +1,27 @@
 import { createMenuItems } from '@vaadin/hilla-file-router/runtime.js';
 import { AppLayout, DrawerToggle, Icon, SideNav, SideNavItem } from '@vaadin/react-components';
-import { Suspense, useEffect } from 'react';
+import { Suspense, useEffect, useMemo } from 'react';
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import '../themes/carrenting/styles.css';
 
 export default function MainLayout() {
   const navigate = useNavigate();
   const location = useLocation();
-  const menuItems = createMenuItems().filter(item => item.title !== 'Home');
+
+  // Get username from sessionStorage
+  const username = sessionStorage.getItem('username');
+
+  // Memoize menuItems to avoid unnecessary recalculations
+  const menuItems = useMemo(() => {
+    const allItems = createMenuItems().filter(item => item.title !== 'Home');
+    // Titles to restrict for non-admin users
+    const restrictedTitles = ['Users', 'Bookings', 'Cars', 'Delegations'];
+    if (username === 'admin') {
+      return allItems;
+    }
+    // Filter out restricted items for non-admin users
+    return allItems.filter(item => !restrictedTitles.includes(item.title));
+  }, [username]);
 
   useEffect(() => {
     if (!sessionStorage.getItem('accessToken') && location.pathname !== '/login') {

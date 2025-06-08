@@ -8,7 +8,7 @@ import Delegation from 'Frontend/generated/dev/renting/delegations/Delegation';
 
 export const config: ViewConfig = {
   menu: {
-    title: '\u2003Create Booking',
+   menu: { exclude: true },
     order: 4, // order within the Create submenu
    // icon: 'line-awesome/svg/list-ol-solid.svg',
   },

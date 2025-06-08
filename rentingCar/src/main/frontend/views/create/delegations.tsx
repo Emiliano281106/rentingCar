@@ -6,7 +6,7 @@ import Delegation from 'Frontend/generated/dev/renting/delegations/Delegation';
 
 export const config: ViewConfig = {
   menu: {
-    title: '\u2003Create Delegation',
+   menu: { exclude: true },
     order: 1, // order within the Create submenu
     //icon: 'line-awesome/svg/simplybuilt.svg',
   },

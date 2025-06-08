@@ -6,7 +6,7 @@ import User from 'Frontend/generated/dev/renting/users/User';
 
 export const config: ViewConfig = {
   menu: {
-    title: '\u2003Create User',
+    menu: { exclude: true },
     order: 3, // order within the Create submenu
     //icon: 'line-awesome/svg/users-cog-solid.svg',
   },
