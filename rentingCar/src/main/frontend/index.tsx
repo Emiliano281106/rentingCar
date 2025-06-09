@@ -7,6 +7,9 @@ import ListCars from './views/listCars/ListCars';
 import HomeView from './views/@index';
 import MainLayout from './views/@layout';
 import Bookings from './views/bookings';
+import BookingCar from './views/listCars/bookingCar/:idHashBookingCar';
+import SuccessfulBooking from './views/listCars/bookingCar/SuccessfulBooking';
+
 
 const router = createBrowserRouter([
     {path: '/', element: <HomeView />},
@@ -18,6 +21,9 @@ const router = createBrowserRouter([
             {path : '/listCars/FilterBookings', element: <FilterBookings />},
             {path : '/listCars/ListCars', element: <ListCars />},
             {path : '/bookings', element: <Bookings />},
+            {path : '/listCars/bookingCar/:idHashBookingCar', element: <BookingCar />},
+            {path : '/listCars/bookingCar/SuccessfulBooking', element: <SuccessfulBooking />},
+
         ],
     },
 ]);
