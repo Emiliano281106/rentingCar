@@ -38,7 +38,7 @@ export default function LoginPage() {
         sessionStorage.setItem('idToken', AuthenticationResult.IdToken || '');
         sessionStorage.setItem('refreshToken', AuthenticationResult.RefreshToken || '');
         sessionStorage.setItem('username', username); // Store username for drawer logic
-        navigate('/listCars/FilterBookings');
+        navigate('/listCars/bookingCar/FilterBookings');
       } else {
         throw new Error('No access token received');
       }
