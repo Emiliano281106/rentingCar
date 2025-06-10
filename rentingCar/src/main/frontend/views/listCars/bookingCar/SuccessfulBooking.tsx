@@ -34,7 +34,7 @@ export default function SuccessfulBooking() {
          console.error('Error deleting date:', error);}
 
      alert('Successful!!!!'); // Placeholder for payment logic
-    navigate('/bookings');
+    navigate('/userBookings');
   };
 
 return (

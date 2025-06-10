@@ -8,18 +8,14 @@ export default function MainLayout() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // Get username from sessionStorage
-  const username = sessionStorage.getItem('username');
 
-  // Memoize menuItems to avoid unnecessary recalculations
+  const username = sessionStorage.getItem('username');
   const menuItems = useMemo(() => {
     const allItems = createMenuItems().filter(item => item.title !== 'Home');
-    // Titles to restrict for non-admin users
     const restrictedTitles = ['Users','Bookings', 'Cars', 'Delegation'];
     if (username === 'admin') {
       return allItems;
     }
-    // Filter out restricted items for non-admin users
     return allItems.filter(item => !restrictedTitles.includes(item.title));
   }, [username]);
 

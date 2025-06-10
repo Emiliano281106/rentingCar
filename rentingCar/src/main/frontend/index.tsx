@@ -9,6 +9,10 @@ import MainLayout from './views/@layout';
 import Bookings from './views/userBookings';
 import BookingCar from './views/listCars/bookingCar/:idHashBookingCar';
 import SuccessfulBooking from './views/listCars/bookingCar/SuccessfulBooking';
+import BookingsView from './views/create/bookings';
+import CarsView from './views/create/cars';
+import UsersView from './views/create/users';
+import DelegationView from './views/create/delegations';
 
 
 const router = createBrowserRouter([
@@ -23,7 +27,10 @@ const router = createBrowserRouter([
             {path : '/userBookings', element: <Bookings />},
             {path : '/listCars/bookingCar/:idHashBookingCar', element: <BookingCar />},
             {path : '/listCars/bookingCar/SuccessfulBooking', element: <SuccessfulBooking />},
-
+            {path : '/create/bookings', element: <BookingsView />},
+            {path : '/create/cars', element: <CarsView />},
+            {path : '/create/users', element: <UsersView />},
+            {path : '/create/delegations', element: <DelegationView />},
         ],
     },
 ]);
