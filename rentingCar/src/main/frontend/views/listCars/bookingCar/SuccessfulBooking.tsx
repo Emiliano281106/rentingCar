@@ -26,7 +26,6 @@ export default function SuccessfulBooking() {
 
   const handlePayment = async() =>{
       try{
-          // Call the correct endpoint method name: deleteDate
           await DelegationEndpoint.deleteDate(car, bookingData.startDate, bookingData.endDate);
 
           }catch (error) {
@@ -34,7 +33,7 @@ export default function SuccessfulBooking() {
          console.error('Error deleting date:', error);}
 
      alert('Successful!!!!');
-    navigate('/bookings');
+    navigate('/userBookings');
   };
 
 return (

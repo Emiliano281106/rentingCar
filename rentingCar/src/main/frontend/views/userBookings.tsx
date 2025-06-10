@@ -6,7 +6,7 @@ import { GridColumn } from '@vaadin/react-components/GridColumn';
 
 export const config: ViewConfig = {
   menu: { order: 7, icon: 'line-awesome/svg/calendar-solid.svg' },
-  title: 'Bookings',
+  title: ' Your Bookings',
 };
 
 export default function Bookings() {
@@ -29,7 +29,7 @@ export default function Bookings() {
   return (
     <div>
         <div className="space-y-m">
-            <p>Bookings for USER#001</p>
+            <p>Your Bookings</p>
         </div>
       <Grid items={bookings}>
         <GridColumn path="operation" header="Booking ID" />
