@@ -35,6 +35,20 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
+    public void deleteBooking(String userId, String bookingId) {
+
+        DynamoDbTable<Booking> table = enhancedClient.table(tableName, TableSchema.fromBean(Booking.class));
+
+
+        Key key = Key.builder()
+                .partitionValue(userId)
+                .sortValue(bookingId)
+                .build();
+
+        table.deleteItem(key);
+    }
+
+    @Override
     public List<Booking> findBookingsByUserId(String userId) {
         // This client creates a reference to our DynamoDB table
         // telling the SDK to map table items to our Booking Java class

@@ -33,4 +33,8 @@ public class UserEndpoint {
         return userRepository.findBookingsByUserId(userId);
     }
 
+    public void deleteBooking(String userId, String bookingId) {
+        userRepository.deleteBooking(userId, bookingId);
+    }
+
 }

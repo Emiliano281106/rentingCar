@@ -23,6 +23,7 @@ export default function Bookings() {
       .finally(() => setLoading(false));
   }, []);
 
+
   if (loading) return <div>Loading bookings...</div>;
   if (bookings.length === 0) return <div>No bookings found.</div>;
 
