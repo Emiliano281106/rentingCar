@@ -6,7 +6,7 @@ import { GridColumn } from '@vaadin/react-components/GridColumn';
 
 export const config: ViewConfig = {
   menu: { order: 7, icon: 'line-awesome/svg/calendar-solid.svg' },
-  title: 'Bookings',
+  title: ' Your Bookings',
 };
 
 export default function Bookings() {

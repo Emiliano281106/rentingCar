@@ -15,7 +15,7 @@ export default function MainLayout() {
   const menuItems = useMemo(() => {
     const allItems = createMenuItems().filter(item => item.title !== 'Home');
     // Titles to restrict for non-admin users
-    const restrictedTitles = ['Users', 'Bookings', 'Cars', 'Delegations'];
+    const restrictedTitles = ['Users','Bookings', 'Cars', 'Delegation'];
     if (username === 'admin') {
       return allItems;
     }

@@ -6,7 +6,7 @@ import FilterBookings from './views/listCars/bookingCar/FilterBookings';
 import ListCars from './views/listCars/ListCars';
 import HomeView from './views/@index';
 import MainLayout from './views/@layout';
-import Bookings from './views/bookings';
+import Bookings from './views/userBookings';
 import BookingCar from './views/listCars/bookingCar/:idHashBookingCar';
 import SuccessfulBooking from './views/listCars/bookingCar/SuccessfulBooking';
 
@@ -18,9 +18,9 @@ const router = createBrowserRouter([
         element : <MainLayout />,
         children: [
             {path : '/login', element: <LoginPage />},
-            {path : '/listCars/FilterBookings', element: <FilterBookings />},
+            {path : '/listCars/bookingCar/FilterBookings', element: <FilterBookings />},
             {path : '/listCars/ListCars', element: <ListCars />},
-            {path : '/bookings', element: <Bookings />},
+            {path : '/userBookings', element: <Bookings />},
             {path : '/listCars/bookingCar/:idHashBookingCar', element: <BookingCar />},
             {path : '/listCars/bookingCar/SuccessfulBooking', element: <SuccessfulBooking />},
 
