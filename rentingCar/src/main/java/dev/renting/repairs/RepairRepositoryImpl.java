@@ -1,4 +1,4 @@
-package dev.renting.delegations;
+package dev.renting.repairs;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -12,13 +12,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 @Repository
-public class DelegationRepositoryImpl implements DelegationRepository {
+public class RepairRepositoryImpl implements RepairRepository {
 
     private final DynamoDbEnhancedClient enhancedClient;
     private final String tableName = "Repairs";
 
     @Autowired
-    public DelegationRepositoryImpl(DynamoDbEnhancedClient enhancedClient) {
+    public RepairRepositoryImpl(DynamoDbEnhancedClient enhancedClient) {
         this.enhancedClient = enhancedClient;
     }
 
@@ -86,9 +86,9 @@ public class DelegationRepositoryImpl implements DelegationRepository {
     }
 
     @Override
-    public List<Delegation> listAllDelegations() {
-        DynamoDbTable<Delegation> table = enhancedClient.table(tableName, TableSchema.fromBean(Delegation.class));
-        List<Delegation> delegations = new ArrayList<>();
+    public List<Repair> listAllRepairs() {
+        DynamoDbTable<Repair> table = enhancedClient.table(tableName, TableSchema.fromBean(Repair.class));
+        List<Repair> repairs = new ArrayList<>();
         Map<String, AttributeValue> expressionValues = new HashMap<>();
         expressionValues.put(":val", AttributeValue.builder().s("profile").build());
         Expression filterExpression = Expression.builder()
@@ -98,8 +98,8 @@ public class DelegationRepositoryImpl implements DelegationRepository {
         ScanEnhancedRequest scanRequest = ScanEnhancedRequest.builder()
                 .filterExpression(filterExpression)
                 .build();
-        table.scan(scanRequest).items().forEach(delegations::add);
-        return delegations;
+        table.scan(scanRequest).items().forEach(repairs::add);
+        return repairs;
     }
 
     @Override

@@ -1,8 +1,8 @@
-package dev.renting.delegations;
+package dev.renting.repairs;
 
 import java.util.List;
 
-public interface DelegationRepository {
+public interface RepairRepository {
 
     <T> void save(T item);
 
@@ -12,7 +12,7 @@ public interface DelegationRepository {
 
     List<Car> listAllCars();
 
-    List<Delegation> listAllDelegations();
+    List<Repair> listAllRepairs();
 
     <T> List<T> listAllItems(Class<T> clazz);
 }

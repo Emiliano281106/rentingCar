@@ -62,14 +62,14 @@ Admins:
 
 **Table 1: Inventory and Availability**  
 
-- **Purpose**: Stores delegations, cars, and car availability.  
+- **Purpose**: Stores repairs, cars, and car availability.  
 - **Partition Key**: `delegationId` (e.g., `DELEG#001`) or `carId` (e.g., `car#2023#006`).  
 - **Sort Key**: `operation` (e.g., `profile`, `calendar`).  
 - **Entities/Beans**:  
   - **Delegation**: `DELEG#<ID>` + `profile` (e.g., address, city, availableCarQty).  
   - **Car**: `car#<year>#<ID>` (e.g., color, make, model, price).  
   - **Calendar**: `car#<year>#<ID>` + `<calendarType>#calendar` (e.g., date availability flags).  
-- **Access Patterns**: Query delegations by ID, cars by ID/model, availability by date.  
+- **Access Patterns**: Query repairs by ID, cars by ID/model, availability by date.  
 - **Notes**: Single-table design, scalable with potential GSIs on `city` or `model`.
 
 **Table 2: Users and Bookings**  
@@ -79,9 +79,9 @@ Admins:
 - **Sort Key**: `operation` (e.g., `profile`, `booking#<year>#<ID>`).  
 - **Entities/Beans**:  
   - **User**: `USER#<ID>` + `profile` (e.g., email, fullName).  
-  - **Booking**: `USER#<ID>` + `booking#<year>#<ID>` (e.g., car, delegation, dates, status).  
+  - **Booking**: `USER#<ID>` + `booking#<year>#<ID>` (e.g., car, repair, dates, status).  
 - **Access Patterns**: Query user profiles by ID, bookings by user/date/status.  
-- **Notes**: Embeds car/delegation data in bookings for fast reads, scalable with potential GSIs on `email` or `statusBooking`.
+- **Notes**: Embeds car/repair data in bookings for fast reads, scalable with potential GSIs on `email` or `statusBooking`.
 
 **Core Design**:  
 
@@ -94,16 +94,16 @@ Admins:
 
 ### Mandatory Tasks for Students
 
-1. **Design and Implement Rent a Car Feature**: Create a feature allowing users to rent a car using a<mark> calendar interface</mark> to select dates (for a particular(s) delegation) and view available cars. Ensure integration with the backend to check availability and confirm bookings.
+1. **Design and Implement Rent a Car Feature**: Create a feature allowing users to rent a car using a<mark> calendar interface</mark> to select dates (for a particular(s) repair) and view available cars. Ensure integration with the backend to check availability and confirm bookings.
    1. From version 1.0, commit <mark>9e88199</mark>
       1. v1.1: `listCars`, original commit
       2. v1.1.1: **data-model** for avalaible cars
       3. v1.1.2: admin create availabilty car calendar by car:
          1. `createAvailabiltyCalenderByCar`
          2. or bash/python to populate single-tables dynamoDB
-      4. v1.1.3: user select `dates/delegation` and query available cars by `dates/delegation`
-      5. v1.2: make a booking for a car/dates/delegation
-      6. v1.3: update avaliable cars at `delegations` single-table
+      4. v1.1.3: user select `dates/repair` and query available cars by `dates/repair`
+      5. v1.2: make a booking for a car/dates/repair
+      6. v1.3: update avaliable cars at `repairs` single-table
 2. **Create five different data models for representing available cars**. For each model, briefly explain its advantages and disadvantages. Then, choose the best option for your needs and justify your choice in a short paragraph. Keep your response around 50 words.
 3. **List of Bookings and Admin Dashboard**: Implement a booking list view for users and a dashboard for admins to monitor bookings, view statistics, and manage the car fleet.
 4. **User Configuration Domain**: Develop a user profile management system, allowing users to update personal information, view booking history, and manage preferences.

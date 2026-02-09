@@ -87,7 +87,7 @@ How to design a unified repository and endpoint for two beans
 ### 1. Create a generic repository interface
 
 ```java
-package dev.renting.delegations;
+package dev.renting.repairs;
 
 import java.util.List;
 
@@ -107,7 +107,7 @@ public interface DelegationCarRepository {
 ### 2. Implement the generic repository
 
 ```java
-package dev.renting.delegations;
+package dev.renting.repairs;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -161,7 +161,7 @@ public class DelegationCarRepositoryImpl implements DelegationCarRepository {
 ### 3. Create a unified endpoint
 
 ```java
-package dev.renting.delegations;
+package dev.renting.repairs;
 
 import com.vaadin.flow.server.auth.AnonymousAllowed;
 import com.vaadin.hilla.Endpoint;
@@ -181,8 +181,8 @@ public class DelegationCarEndpoint {
     }
 
     // Save Delegation
-    public void saveDelegation(Delegation delegation) {
-        delegationCarRepository.save(delegation);
+    public void saveDelegation(Delegation repair) {
+        delegationCarRepository.save(repair);
     }
 
     // Save Car

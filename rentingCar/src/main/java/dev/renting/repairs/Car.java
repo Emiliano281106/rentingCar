@@ -1,4 +1,4 @@
-package dev.renting.delegations;
+package dev.renting.repairs;
 
 import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbBean;
 import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbPartitionKey;
@@ -7,23 +7,24 @@ import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbSortK
 
 @DynamoDbBean
 public class Car {
-    private String delegationId;
+    private String repairId;
     private String operation;
     private String make;
     private String model;
-    private int year;
-    private String color;
-    private boolean rented;
-    private int price;
+    private String year;
+    private String vin;
+    private String licensePlate;
+    private String motorType;
+
 
     // Partition key
     @DynamoDbPartitionKey
-    public String getDelegationId() {
-        return delegationId;
+    public String getRepairId() {
+        return repairId;
     }
 
-    public void setDelegationId(String delegationId) {
-        this.delegationId = delegationId;
+    public void setRepairId(String repairId) {
+        this.repairId = repairId;
     }
 
     @DynamoDbSortKey
@@ -54,38 +55,42 @@ public class Car {
     }
 
     @DynamoDbAttribute("year")
-    public int getYear() {
+    public String getYear() {
         return year;
     }
 
-    public void setYear(int year) {
+    public void setYear(String year) {
         this.year = year;
     }
 
-    @DynamoDbAttribute("color")
-    public String getColor() {
-        return color;
+    @DynamoDbAttribute("vin")
+    public String getVin() {
+        return vin;
     }
 
-    public void setColor(String color) {
-        this.color = color;
+    public void setVin(String vin) {
+        this.vin = vin;
     }
 
-    public boolean isRented() {
-        return rented;
+    @DynamoDbAttribute("licensePlate")
+    public String getLicensePlate() {
+        return licensePlate;
     }
 
-    public void setRented(boolean rented) {
-        this.rented = rented;
+    public void setLicensePlate(String licensePlate) {
+        this.licensePlate = licensePlate;
     }
 
-    public int getPrice() {
-        return price;
+    @DynamoDbAttribute("motorType")
+    public String getMotorType() {
+        return motorType;
     }
 
-    public void setPrice(int price) {
-        this.price = price;
+    public void setMotorType(String motorType) {
+        this.motorType = motorType;
     }
+
+
 
     // Note: DynamoDB Enhanced Client does not natively support dynamic additional properties.
     // If you need to store extra unknown attributes, consider using a Map<String, AttributeValue> field

@@ -5,7 +5,7 @@ This document summarizes and compares three different approaches used in the pro
 ## Table of Contents
 
 - [Approach 1: Car (Manual Mapping)](#approach-1-car-manual-mapping)
-- [Approach 2: Delegation (Hybrid Mapping)](#approach-2-delegation-hybrid-mapping)
+- [Approach 2: Delegation (Hybrid Mapping)](#approach-2-repair-hybrid-mapping)
 - [Approach 3: User (Repository + Enhanced Client)](#approach-3-user-repository--enhanced-client)
 - [Comparison Table](#comparison-table)
 
@@ -43,7 +43,7 @@ public void saveCar(Map<String, Object> carJson) {
 public class Delegation {
     // fields, getters, setters with @DynamoDbAttribute
 }
-public void saveDelegation(Delegation delegation) {
+public void saveDelegation(Delegation repair) {
     Map<String, AttributeValue> delegationMap = new HashMap<>();
     // Manual mapping logic...
     dynamoDbClient.putItem(PutItemRequest.builder()

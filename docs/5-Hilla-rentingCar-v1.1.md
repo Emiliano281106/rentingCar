@@ -111,16 +111,16 @@ This Hilla endpoint exposes the `listAllCars()` method to the frontend.
 @Endpoint
 @AnonymousAllowed
 public class DelegationEndpoint {
-    private final DelegationRepository delegationRepository;
+    private final DelegationRepository repairRepository;
 
     @Autowired
-    public DelegationEndpoint(DelegationRepository delegationRepository) {
-        this.delegationRepository = delegationRepository;
+    public DelegationEndpoint(DelegationRepository repairRepository) {
+        this.repairRepository = repairRepository;
     }
 
-    // List all cars for all delegations
+    // List all cars for all repairs
     public List<Car> getAllCars() {
-        return delegationRepository.listAllCars();
+        return repairRepository.listAllCars();
     }
 }
 ```
@@ -133,7 +133,7 @@ This React component fetches and displays the car list, integrating with the bac
 import { ViewConfig } from '@vaadin/hilla-file-router/types.js';
 import { useEffect, useState } from 'react';
 import { DelegationEndpoint } from 'Frontend/generated/endpoints';
-import Car from 'Frontend/generated/dev/renting/delegations/Car';
+import Car from 'Frontend/generated/dev/renting/repairs/Car';
 import { Button } from '@vaadin/react-components/Button';
 
 export const config: ViewConfig = {
