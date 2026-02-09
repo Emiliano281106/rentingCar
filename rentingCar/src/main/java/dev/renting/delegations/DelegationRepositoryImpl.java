@@ -15,7 +15,7 @@ import java.util.Map;
 public class DelegationRepositoryImpl implements DelegationRepository {
 
     private final DynamoDbEnhancedClient enhancedClient;
-    private final String tableName = "Delegations";
+    private final String tableName = "Repairs";
 
     @Autowired
     public DelegationRepositoryImpl(DynamoDbEnhancedClient enhancedClient) {
