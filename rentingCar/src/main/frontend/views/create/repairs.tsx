@@ -13,22 +13,22 @@ export const config: ViewConfig = {
 
 };
 
-const sampleRepair: Repair = {
-    repairId: "REP#001",
+const [repairData, setRepairData] = useState({
+    repairId: '',
     operation: "info",
-    failCode: "123es",
-    cost: 120,
-    location: "Barcelona",
-    owner: "John Doe",
-    phone: "+34 931 234 567",
-    observations: "Reparación urgente",
+    failCode: '',
+    cost: '',
+    location: '',
+    owner: '',
+    phone: '',
+    observations: '',
 
-};
+    })
 
 export default function RepairView() {
   const handleSaveRepair = async () => {
     try {
-      await RepairEndpoint.saveRepair(sampleRepair);
+      await RepairEndpoint.saveRepair(repairData);
       alert('Repair saved successfully!');
     } catch (error) {
       console.error('Error saving repair:', error);
