@@ -7,9 +7,9 @@ import {useState} from 'react';
 
 export const config: ViewConfig = {
   menu: {
-    title: '\u2003Create Car', // two non-breaking spaces for indentation
-    order: 2,
-    //icon: 'line-awesome/svg/car-side-solid.svg',
+     title: '\u2003Create Car',
+     hidden: true,// two non-breaking spaces for indentation
+     icon: 'line-awesome/svg/car-side-solid.svg',
   },
 
 };
@@ -26,6 +26,8 @@ export default function CarsView() {
     vin: '',
     licensePlate: '',
     motorType: '',
+    owner: '',
+    phone: '',
   });
   const handleSaveCar = async () => {
     try {

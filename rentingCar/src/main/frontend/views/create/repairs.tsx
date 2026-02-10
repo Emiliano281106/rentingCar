@@ -7,9 +7,9 @@ import Repair from 'Frontend/generated/dev/renting/repairs/Repair';
 
 export const config: ViewConfig = {
   menu: {
-    title: '\u2003Create Repair',
+    title: '\u2003Crer Reparación',
     order: 1, // order within the Create submenu
-    //icon: 'line-awesome/svg/simplybuilt.svg',
+    icon: 'line-awesome/svg/simplybuilt.svg',
   },
 
 };
@@ -23,8 +23,6 @@ export default function RepairView() {
         failCode: '',
         cost: '',
         location: '',
-        owner: '',
-        phone: '',
         observations: '',
 
         })
@@ -116,42 +114,6 @@ export default function RepairView() {
                 onChange={(e) => setRepairData({ ...repairData, location: e.target.value })}
                 className="w-full p-s border border-contrast-20 rounded-s hover:border-contrast-30 focus:border-primary focus:shadow-[0_0_0_2px_theme(colors.primary)] transition-colors"
                 placeholder="Ubicación"
-              />
-            </div>
-
-            {/* Owner Field */}
-            <div className="mb-m">
-              <label
-                htmlFor="owner"
-                className="block text-sm text-body font-medium mb-xs"
-              >
-                Dueño
-              </label>
-              <input
-                id="owner"
-                type="text"
-                value={repairData.owner}
-                onChange={(e) => setRepairData({ ...repairData, owner: e.target.value })}
-                className="w-full p-s border border-contrast-20 rounded-s hover:border-contrast-30 focus:border-primary focus:shadow-[0_0_0_2px_theme(colors.primary)] transition-colors"
-                placeholder="Nombre del dueño"
-              />
-            </div>
-
-            {/* Phone Field */}
-            <div className="mb-m">
-              <label
-                htmlFor="phone"
-                className="block text-sm text-body font-medium mb-xs"
-              >
-                Número de teléfono
-              </label>
-              <input
-                id="phone"
-                type="tel"
-                value={repairData.phone}
-                onChange={(e) => setRepairData({ ...repairData, phone: e.target.value })}
-                className="w-full p-s border border-contrast-20 rounded-s hover:border-contrast-30 focus:border-primary focus:shadow-[0_0_0_2px_theme(colors.primary)] transition-colors"
-                placeholder="Número de teléfono"
               />
             </div>
 

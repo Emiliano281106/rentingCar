@@ -12,8 +12,6 @@ public class Repair {
     private String failCode;
     private int cost;
     private String location;
-    private String owner;
-    private String phone;
     private String observations;
 
     @DynamoDbPartitionKey
@@ -59,24 +57,6 @@ public class Repair {
 
     public void setLocation(String location) {
         this.location = location;
-    }
-
-    @DynamoDbAttribute("owner")
-    public String getOwner() {
-        return owner;
-    }
-
-    public void setOwner(String owner) {
-        this.owner = owner;
-    }
-
-    @DynamoDbAttribute("phone")
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
     }
 
     @DynamoDbAttribute("observations")

@@ -15,6 +15,8 @@ public class Car {
     private String vin;
     private String licensePlate;
     private String motorType;
+    private String owner;
+    private String phone;
 
 
     // Partition key
@@ -88,6 +90,24 @@ public class Car {
 
     public void setMotorType(String motorType) {
         this.motorType = motorType;
+    }
+
+    @DynamoDbAttribute("owner")
+    public String getOwner() {
+        return owner;
+    }
+
+    public void setOwner(String owner) {
+        this.owner = owner;
+    }
+
+    @DynamoDbAttribute("phone")
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
 
