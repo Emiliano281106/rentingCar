@@ -29,7 +29,6 @@ export default function RepairView() {
   const handleSaveRepair = async () => {
     try {
       await RepairEndpoint.saveRepair(repairData);
-      alert('Reparación guardada con éxito!');
       navigate('/create/cars', { state: { repairData } });
     } catch (error) {
       console.error('Error saving repair:', error);
