@@ -8,7 +8,7 @@ import Repair from 'Frontend/generated/dev/renting/repairs/Repair';
 
 export const config: ViewConfig = {
   menu: {
-    title: '\u2003Crer Reparación',
+    title: 'Crear Reparación',
     order: 1, // order within the Create submenu
     icon: 'line-awesome/svg/simplybuilt.svg',
   },
