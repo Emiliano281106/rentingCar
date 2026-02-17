@@ -3,22 +3,24 @@ import { ViewConfig } from '@vaadin/hilla-file-router/types.js';
 import { Button } from '@vaadin/react-components/Button';
 import Car from 'Frontend/generated/dev/renting/repairs/Car';
 import {useState} from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 
 export const config: ViewConfig = {
-  menu: {
-     title: '\u2003Create Car',
-     hidden: true,// two non-breaking spaces for indentation
-     icon: 'line-awesome/svg/car-side-solid.svg',
-  },
-
+  menu: { exclude: true},
+  title: 'Create Car',
 };
 
 
 export default function CarsView() {
 
+    const navigate = useNavigate();
+    const location = useLocation();
+
+    const repairData = location.state?.repairData
+
   const [carData, setCarData] = useState({
-    repairId: "REP#001",
+    repairId: repairData.repairId,
     operation: '',
     make: '',
     model: '',
@@ -61,7 +63,7 @@ export default function CarsView() {
               value={carData.operation}
               onChange={(e) => setCarData({ ...carData, operation: e.target.value })}
               className="w-full p-s border border-contrast-20 rounded-s hover:border-contrast-30 focus:border-primary focus:shadow-[0_0_0_2px_theme(colors.primary)] transition-colors"
-              placeholder="Enter car ID"
+              placeholder="CAR#XXX"
             />
           </div>
 
@@ -71,7 +73,7 @@ export default function CarsView() {
               htmlFor="make"
               className="block text-sm text-body font-medium mb-xs"
             >
-              Make
+              Marca
             </label>
             <input
               id="make"
@@ -79,7 +81,7 @@ export default function CarsView() {
               value={carData.make}
               onChange={(e) => setCarData({ ...carData, make: e.target.value })}
               className="w-full p-s border border-contrast-20 rounded-s hover:border-contrast-30 focus:border-primary focus:shadow-[0_0_0_2px_theme(colors.primary)] transition-colors"
-              placeholder="e.g., Toyota"
+              placeholder="Toyota"
             />
           </div>
 
@@ -89,7 +91,7 @@ export default function CarsView() {
               htmlFor="model"
               className="block text-sm text-body font-medium mb-xs"
             >
-              Model
+              Modelo
             </label>
             <input
               id="model"
@@ -97,7 +99,7 @@ export default function CarsView() {
               value={carData.model}
               onChange={(e) => setCarData({ ...carData, model: e.target.value })}
               className="w-full p-s border border-contrast-20 rounded-s hover:border-contrast-30 focus:border-primary focus:shadow-[0_0_0_2px_theme(colors.primary)] transition-colors"
-              placeholder="e.g., Camry"
+              placeholder="Camry"
             />
           </div>
 
@@ -107,7 +109,7 @@ export default function CarsView() {
               htmlFor="year"
               className="block text-sm text-body font-medium mb-xs"
             >
-              Year
+              Año de fabricación
             </label>
             <input
               id="year"
@@ -115,7 +117,7 @@ export default function CarsView() {
               value={carData.year}
               onChange={(e) => setCarData({ ...carData, year: e.target.value })}
               className="w-full p-s border border-contrast-20 rounded-s hover:border-contrast-30 focus:border-primary focus:shadow-[0_0_0_2px_theme(colors.primary)] transition-colors"
-              placeholder="e.g., 2023"
+              placeholder="2023"
               min="1900"
               max="2099"
             />
@@ -127,7 +129,7 @@ export default function CarsView() {
               htmlFor="vin"
               className="block text-sm text-body font-medium mb-xs"
             >
-              VIN (Vehicle Identification Number)
+              VIN
             </label>
             <input
               id="vin"
@@ -135,7 +137,7 @@ export default function CarsView() {
               value={carData.vin}
               onChange={(e) => setCarData({ ...carData, vin: e.target.value })}
               className="w-full p-s border border-contrast-20 rounded-s hover:border-contrast-30 focus:border-primary focus:shadow-[0_0_0_2px_theme(colors.primary)] transition-colors"
-              placeholder="e.g., 1HGCM82633A123456"
+              placeholder="1HGCM82633A123456"
               maxLength="17"
             />
           </div>
@@ -146,7 +148,7 @@ export default function CarsView() {
               htmlFor="licensePlate"
               className="block text-sm text-body font-medium mb-xs"
             >
-              License Plate
+              Matricula
             </label>
             <input
               id="licensePlate"
@@ -154,7 +156,7 @@ export default function CarsView() {
               value={carData.licensePlate}
               onChange={(e) => setCarData({ ...carData, licensePlate: e.target.value })}
               className="w-full p-s border border-contrast-20 rounded-s hover:border-contrast-30 focus:border-primary focus:shadow-[0_0_0_2px_theme(colors.primary)] transition-colors"
-              placeholder="e.g., ABC-123"
+              placeholder="ABC-123"
             />
           </div>
 
@@ -164,7 +166,7 @@ export default function CarsView() {
               htmlFor="motorType"
               className="block text-sm text-body font-medium mb-xs"
             >
-              Motor Type
+              Tipo de motor
             </label>
             <select
               id="motorType"
@@ -172,7 +174,7 @@ export default function CarsView() {
               onChange={(e) => setCarData({ ...carData, motorType: e.target.value })}
               className="w-full p-s border border-contrast-20 rounded-s hover:border-contrast-30 focus:border-primary focus:shadow-[0_0_0_2px_theme(colors.primary)] transition-colors"
             >
-              <option value="">Select motor type</option>
+              <option value="">Selecciona el tipo de motor</option>
               <option value="gasoline">Gasoline</option>
               <option value="diesel">Diesel</option>
               <option value="electric">Electric</option>
@@ -186,7 +188,7 @@ export default function CarsView() {
 
       <div className="mt-xl">
         <Button theme="primary" onClick={handleSaveCar}>
-          Guardar Carro
+          Guardar Reparación
         </Button>
       </div>
     </div>

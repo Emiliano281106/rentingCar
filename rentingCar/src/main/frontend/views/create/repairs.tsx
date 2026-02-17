@@ -2,6 +2,7 @@ import { ViewConfig } from '@vaadin/hilla-file-router/types.js';
 import { RepairEndpoint } from 'Frontend/generated/endpoints';
 import { Button } from '@vaadin/react-components/Button';
 import {useState} from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import Repair from 'Frontend/generated/dev/renting/repairs/Repair';
 
 
@@ -17,6 +18,9 @@ export const config: ViewConfig = {
 
 export default function RepairView() {
 
+    const navigate = useNavigate();
+    const location = useLocation();
+
     const [repairData, setRepairData] = useState({
         repairId: '',
         operation: "info",
@@ -31,6 +35,7 @@ export default function RepairView() {
     try {
       await RepairEndpoint.saveRepair(repairData);
       alert('Reparación guardada con éxito!');
+      navigate('/create/cars', { state: { repairData } });
     } catch (error) {
       console.error('Error saving repair:', error);
       alert('Failed to save repair');
@@ -42,7 +47,7 @@ export default function RepairView() {
         <div className="mt-xl"></div>
 
         <div className="mt-xl bg-base border border-contrast-10 rounded-l p-l">
-          <h3 className="text-lg mb-m font-semibold text-header">Repair Information</h3>
+          <h3 className="text-lg mb-m font-semibold text-header">Información de la reparación</h3>
 
           <div className="space-y-m">
             {/* Repair ID Field */}
@@ -139,7 +144,7 @@ export default function RepairView() {
 
         <div className="mt-xl">
           <Button theme="primary" onClick={handleSaveRepair}>
-            Guardar Reparación
+            CONTINUAR
           </Button>
         </div>
       </div>
