@@ -33,7 +33,7 @@ export default function CarsView() {
     try {
       await RepairEndpoint.saveCar(carData);
       alert('Reparación creada exitosamente');
-      navigate('/');
+      navigate('/repairsView');
     } catch (error) {
       console.error('Error saving car:', error);
       alert('Failed to save car');
