@@ -85,19 +85,32 @@ public class RepairRepositoryImpl implements RepairRepository {
         return cars;
     }
 
+    //@Override
+   // public List<Repair> listAllRepairs() {
+       // DynamoDbTable<Repair> table = enhancedClient.table(tableName, TableSchema.fromBean(Repair.class));
+        //List<Repair> repairs = new ArrayList<>();
+      //  Map<String, AttributeValue> expressionValues = new HashMap<>();
+      //  expressionValues.put(":val", AttributeValue.builder().s("profile").build());
+       // Expression filterExpression = Expression.builder()
+             //.expression("operation = :val")
+              //  .expressionValues(expressionValues)
+              //  .build();
+     //   ScanEnhancedRequest scanRequest = ScanEnhancedRequest.builder()
+              //  .filterExpression(filterExpression)
+               // .build();
+       // table.scan(scanRequest).items().forEach(repairs::add);
+       // return repairs;
+  // }´
+
     @Override
     public List<Repair> listAllRepairs() {
         DynamoDbTable<Repair> table = enhancedClient.table(tableName, TableSchema.fromBean(Repair.class));
         List<Repair> repairs = new ArrayList<>();
-        Map<String, AttributeValue> expressionValues = new HashMap<>();
-        expressionValues.put(":val", AttributeValue.builder().s("profile").build());
-        Expression filterExpression = Expression.builder()
-                .expression("operation = :val")
-                .expressionValues(expressionValues)
-                .build();
+
+        // Remove the filter to get ALL repairs
         ScanEnhancedRequest scanRequest = ScanEnhancedRequest.builder()
-                .filterExpression(filterExpression)
-                .build();
+                .build(); // No filter expression
+
         table.scan(scanRequest).items().forEach(repairs::add);
         return repairs;
     }
